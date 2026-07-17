@@ -39,8 +39,31 @@
                         <i class="fas fa-search fs-5" style="color: #6c757d;"></i>
                     </button>
                     <?php if (Helpers\Session::isLoggedIn('customer')): ?>
-                    <a class="btn btn-outline-secondary rounded-pill px-3 py-2" href="<?php echo URLROOT; ?>/customer/cart">
+                    <a class="btn btn-outline-secondary rounded-pill px-3 py-2 position-relative" href="<?php echo URLROOT; ?>/customer/cart">
                         <i class="fas fa-shopping-cart me-1"></i> Cart
+                        <?php 
+                        // Get cart count
+                        $cartCount = 0;
+                        if (class_exists('Models\Cart')) {
+                            try {
+                                $cartModel = new Models\Cart();
+                                $cart = $cartModel->getCartByUserId(Helpers\Session::get('user_id'));
+                                if ($cart) {
+                                    $cartItems = $cartModel->getCartItems($cart->id);
+                                    foreach ($cartItems as $item) {
+                                        $cartCount += $item->quantity;
+                                    }
+                                }
+                            } catch (\Exception $e) {
+                                // Do nothing
+                            }
+                        }
+                        if ($cartCount > 0): 
+                        ?>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background: #e74c3c; font-size: 0.7rem;">
+                            <?php echo $cartCount; ?>
+                        </span>
+                        <?php endif; ?>
                     </a>
                     <a class="btn btn-primary rounded-pill px-3 py-2" href="<?php echo URLROOT; ?>/customer/dashboard">
                         My Account

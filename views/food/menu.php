@@ -224,6 +224,54 @@
             // Optional: Place cursor at end of text if there's a query
             searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
         }
+
+        // Add to Cart functionality
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const foodId = this.dataset.foodId;
+                const originalHTML = this.innerHTML;
+                
+                // Show loading state
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Adding...';
+                this.disabled = true;
+
+                // Send AJAX request
+                fetch('<?php echo URLROOT; ?>/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'food_id=' + foodId
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.innerHTML = '<i class="fas fa-check me-1"></i> Added!';
+                        this.style.background = '#28a745';
+                        this.style.borderColor = '#28a745';
+                        
+                        // Reset after 2 seconds
+                        setTimeout(() => {
+                            this.innerHTML = originalHTML;
+                            this.style.background = '';
+                            this.style.borderColor = '';
+                            this.disabled = false;
+                        }, 2000);
+                    } else {
+                        alert(data.message || 'Failed to add item to cart');
+                        this.innerHTML = originalHTML;
+                        this.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Something went wrong. Please try again.');
+                    this.innerHTML = originalHTML;
+                    this.disabled = false;
+                });
+            });
+        });
     });
 </script>
 <?php require APPROOT . '/views/layouts/footer.php'; ?>
