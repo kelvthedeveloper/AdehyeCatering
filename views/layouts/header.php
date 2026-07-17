@@ -19,27 +19,27 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mx-auto mb-3 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-3 mb-lg-0">
                     <!--<li class="nav-item me-3">
                         <a class="nav-link fw-medium" href="<?php echo URLROOT; ?>" style="color: #2c3e50;">Home</a>
                     </li>-->
-                    <li class="nav-item me-3">
+                    <li class="nav-item">
                         <a class="nav-link fw-medium" href="<?php echo URLROOT; ?>/menu" style="color: #2c3e50;">Menu</a>
                     </li>
-                    <li class="nav-item me-3">
+                    <li class="nav-item">
                         <a class="nav-link fw-medium" href="<?php echo URLROOT; ?>/about" style="color: #2c3e50;">About</a>
                     </li>
-                    <li class="nav-item me-3">
+                    <li class="nav-item">
                         <a class="nav-link fw-medium" href="<?php echo URLROOT; ?>/contact" style="color: #2c3e50;">Contact</a>
                     </li>
                 </ul>
-                <div class="d-flex flex-wrap align-items-center gap-2">
+                <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2">
                     <!-- Search Icon (opens modal) -->
-                    <button type="button" class="btn btn-link text-decoration-none p-2" data-bs-toggle="modal" data-bs-target="#searchModal">
+                    <button type="button" class="btn btn-link text-decoration-none p-2 align-self-center" data-bs-toggle="modal" data-bs-target="#searchModal">
                         <i class="fas fa-search fs-5" style="color: #6c757d;"></i>
                     </button>
                     <?php if (Helpers\Session::isLoggedIn('customer')): ?>
-                    <a class="btn btn-outline-secondary rounded-pill px-3 py-2 position-relative" href="<?php echo URLROOT; ?>/customer/cart">
+                    <a class="btn btn-outline-secondary rounded-pill px-3 py-2 position-relative align-self-stretch" href="<?php echo URLROOT; ?>/customer/cart">
                         <i class="fas fa-shopping-cart me-1"></i> Cart
                         <?php 
                         // Get cart count
@@ -75,18 +75,16 @@
                     </a>
                     <?php endif; ?>
                     <?php if (Helpers\Session::isLoggedIn()): ?>
-                    <a class="nav-link fw-medium px-3 py-2" href="<?php echo URLROOT; ?>/logout" style="color: #2c3e50;">
+                    <a class="btn btn-outline-danger rounded-pill px-3 py-2" href="<?php echo URLROOT; ?>/logout">
                         <i class="fas fa-sign-out-alt me-1"></i> Logout
                     </a>
                     <?php else: ?>
                     <a class="btn btn-outline-primary rounded-pill px-3 py-2" href="<?php echo URLROOT; ?>/login">
                         Login
                     </a>
-                    <!--
-                    <a class="btn btn-primary rounded-pill px-4" href="<?php echo URLROOT; ?>/register">
+                    <a class="btn btn-primary rounded-pill px-3 py-2" href="<?php echo URLROOT; ?>/register">
                         Sign Up
                     </a>
-                    -->
                     <?php endif; ?>
                 </div>
             </div>
