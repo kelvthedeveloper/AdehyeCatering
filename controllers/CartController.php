@@ -53,7 +53,8 @@ class CartController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!Session::isLoggedIn('customer')) {
-                redirect('login');
+                echo json_encode(['success' => false, 'message' => 'Please login first']);
+                exit;
             }
             
             $itemId = (int)$_POST['item_id'];
@@ -62,7 +63,35 @@ class CartController extends Controller
             $cartModel = $this->model('Cart');
             $cartModel->updateItem($itemId, $quantity);
             
-            redirect('customer/cart');
+            // Get updated cart data
+            $cart = $cartModel->getCartByUserId(Session::get('user_id'));
+            $cartItems = $cartModel->getCartItems($cart->id);
+            $total = $cartModel->getCartTotal($cart->id);
+            
+            // Calculate total cart count
+            $cartCount = 0;
+            foreach ($cartItems as $item) {
+                $cartCount += $item->quantity;
+            }
+            
+            // Prepare response
+            $response = [
+                'success' => true,
+                'total' => $total,
+                'cartCount' => $cartCount,
+                'items' => []
+            ];
+            
+            foreach ($cartItems as $item) {
+                $response['items'][] = [
+                    'id' => $item->id,
+                    'quantity' => $item->quantity,
+                    'subtotal' => $item->price * $item->quantity
+                ];
+            }
+            
+            echo json_encode($response);
+            exit;
         }
     }
 

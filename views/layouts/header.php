@@ -60,7 +60,7 @@
                         }
                         if ($cartCount > 0): 
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background: #e74c3c; font-size: 0.7rem;">
+                        <span id="cart-count-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background: #e74c3c; font-size: 0.7rem;">
                             <?php echo $cartCount; ?>
                         </span>
                         <?php endif; ?>
